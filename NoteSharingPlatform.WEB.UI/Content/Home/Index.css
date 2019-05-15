@@ -1,0 +1,55 @@
+﻿
+
+#smallHeader {
+    font-size: 10px;
+    opacity: 0.4;
+}
+
+#myHeaderLink {
+    color: steelblue;
+    text-decoration: none;
+}
+
+    #myHeaderLink:hover {
+        opacity: 0.7;
+    }
+
+
+
+#myContentText {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: black;
+}
+
+#myLikeButton {
+    background-color: mediumvioletred;
+    border: none;
+    color: white;
+}
+
+    #myLikeButton:hover {
+        background-color: dimgrey;
+        color: gold;
+        border: none;
+    }
+
+#myCommentButton {
+    background-color: seagreen;
+    border: none;
+    color: white;
+}
+
+    #myCommentButton:hover {
+        background-color: dimgrey;
+        color: gold;
+        border: none;
+    }
+
+#myCategory {
+    text-decoration: none;
+    color: black;
+}
+#myCategory:hover{
+    background-color:steelblue;
+    color:white;
+}

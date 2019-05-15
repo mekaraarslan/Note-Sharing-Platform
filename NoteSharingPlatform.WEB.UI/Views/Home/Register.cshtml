@@ -1,0 +1,55 @@
+﻿@using NoteSharingPlatform.WEB.UI.ViewModels
+@model RegisterViewModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400" rel="stylesheet">
+    <link href="~/Content/Login/Login.css" rel="stylesheet" />
+    <title>Kayıt Ol</title>
+</head>
+<body>
+    <div>
+        <div class="login-box">
+            <form method="post">
+                <div class="input-section">
+                    <i class="fa fa-user"></i>
+                    
+                    @Html.TextBoxFor(x => x.Username, new { @class = "input-area", placeholder = "Kullanıcı adı" , autocomplete = "off" })
+                </div>
+                <div class="input-section">
+                    <i class="fa fa-envelope-o"></i>
+                    @Html.TextBoxFor(x => x.Email, new { @class = "input-area", placeholder = "E-Mail adresi" , type="email" , autocomplete = "off" })
+                </div>
+                <div class="input-section">
+                    <i class="fa fa-lock"></i>
+                    @Html.TextBoxFor(x => x.Password, new { @class = "input-area", placeholder = "Şifre", type = "password" , autocomplete = "off" })
+                </div>
+                <div class="input-section">
+                    <i class="fa fa-lock"></i>
+                        @Html.TextBoxFor(x => x.RePassword, new { @class = "input-area", placeholder = "Şifre Tekrar", type = "password", autocomplete = "off" })
+                    
+                </div>
+
+
+                <button type="submit" class="btn" id="login-btn">Kayıt Ol</button>
+            </form>
+            <div class="question-box">
+                <p class="question">Giriş yapmak ister misin?</p><a class="reg-btn" href="#">Giriş yap</a>
+            </div>
+        </div>
+        <div class="success-box">
+            <h1>You have been logged in!</h1>
+        </div>
+    </div>
+</body>
+</html>

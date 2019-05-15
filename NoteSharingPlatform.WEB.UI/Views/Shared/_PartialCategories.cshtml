@@ -1,0 +1,19 @@
+﻿@using NoteSharingPlatform.BLL.Managers
+@using NoteSharingPlatform.ENTITY.Models
+
+@{ 
+    CategoryManager categoryMan = new CategoryManager();
+    List<Category> list = categoryMan.GetCategories();
+
+}
+
+<h2 class="my-4">Kategoriler</h2>
+<div class="list-group">
+
+    <a id="myCategory" href="/Home/Index"  class="list-group-item"> <i class="fa fa-arrow-right"></i>&nbsp; Tüm Kategoriler</a>
+
+    @foreach (Category category in list)
+    {
+        <a id="myCategory" href="/Category/Select/@category.Id" title="@category.Description" class="list-group-item"> <i class="fa fa-arrow-right"></i>&nbsp; @category.Title</a>
+    }
+</div>
