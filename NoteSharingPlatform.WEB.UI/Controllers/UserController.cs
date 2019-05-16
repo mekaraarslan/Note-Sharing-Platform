@@ -44,7 +44,8 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
         public ActionResult Logout()
         {
-            return View();
+            Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Register()

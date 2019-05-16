@@ -63,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NoteSharingPlatform.COMMON\NoteSharingPlatform.COMMON.csproj">
+      <Project>{e0e0d871-7015-496f-ac91-7d7abcfb6463}</Project>
+      <Name>NoteSharingPlatform.COMMON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NoteSharingPlatform.ENTITY\NoteSharingPlatform.ENTITY.csproj">
       <Project>{A8BCEC6F-F75C-4632-AC4F-F15D481F70B3}</Project>
       <Name>NoteSharingPlatform.ENTITY</Name>

@@ -1,4 +1,5 @@
-﻿using NoteSharingPlatform.DAL;
+﻿using NoteSharingPlatform.COMMON;
+using NoteSharingPlatform.DAL;
 using NoteSharingPlatform.DAL.Abstract;
 using NoteSharingPlatform.ENTITY.Models;
 using System;
@@ -53,7 +54,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
 
                 o.CreatedOn = now;
                 o.ModifiedOn = now;
-                o.ModifiedUsername = "system"; // TODO: Buraya aktif olan username gelecek.
+                o.ModifiedUsername = App.common.GetUsername();
             }
             
             return Save();
@@ -66,7 +67,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                 MyEntityBase o = obj as MyEntityBase;
 
                 o.ModifiedOn = DateTime.Now;
-                o.ModifiedUsername = "system"; // TODO: Buraya aktif olan username gelecek.
+                o.ModifiedUsername = App.common.GetUsername();
             }
 
             return Save();

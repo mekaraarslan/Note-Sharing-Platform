@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NoteSharingPlatform.COMMON;
+using NoteSharingPlatform.WEB.UI.Init;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +15,8 @@ namespace NoteSharingPlatform.WEB.UI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            App.common = new WebCommon();
         }
     }
 }
