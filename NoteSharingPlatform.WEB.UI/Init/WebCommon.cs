@@ -16,7 +16,7 @@ namespace NoteSharingPlatform.WEB.UI.Init
                 UserModel user = HttpContext.Current.Session["login"] as UserModel;
                 return user.Username;
             }
-            return null;
+            return "system";
         }
     }
 }

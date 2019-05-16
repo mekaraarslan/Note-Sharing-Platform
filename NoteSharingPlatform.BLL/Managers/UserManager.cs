@@ -1,4 +1,5 @@
-﻿using NoteSharingPlatform.DAL.EntityFramework;
+﻿using NoteSharingPlatform.COMMON.Helpers;
+using NoteSharingPlatform.DAL.EntityFramework;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.ENTITY.ViewModels;
@@ -48,6 +49,11 @@ namespace NoteSharingPlatform.BLL.Managers
                 if (dbResult > 0)
                 {
                     userResult.Result = userRep.Find(x => x.Email == registerViewModel.Email && x.Username == registerViewModel.Username);
+                    string siteUri = ConfigHelper.Get<string>("SiteRootUri");
+                    string activateUri = $"{siteUri}/User/UserActivate/{userResult.Result.ActivateGuid}";
+                    string body = $"Merhaba {userResult.Result.Username} ; <br/><br/>Hesabınızı aktifleştirmek için <a href = '{activateUri}' target =_blank'> tıklayınız. </a>";
+
+                    MailHelper.SendMail(body , userResult.Result.Email,"Note Sharing Platform Hesap Aktifleştirme");
 
                 }
             }
@@ -79,6 +85,30 @@ namespace NoteSharingPlatform.BLL.Managers
 
             return userResult;
 
+        }
+
+        public BusinessLayerResult<UserModel> ActivateUser (Guid activateId)
+        {
+            BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
+            userResult.Result = userRep.Find(x => x.ActivateGuid == activateId);
+
+            if (userResult != null)
+            {
+                if (userResult.Result.IsActive)
+                {
+                    userResult.AddError(ErrorMessageCode.UserAlreadyActivate,"Kullanıcı zaten aktif edilmiştir.");
+                    return userResult;
+                }
+                userResult.Result.IsActive = true;
+                userRep.Update(userResult.Result);
+            }
+            else
+            {
+                userResult.AddError(ErrorMessageCode.ActivateIdDoesNotExists, "Aktifleştirilecek kullanılıcı bulunamadı.");
+
+            }
+
+            return userResult;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
                 Session["login"] = userResult.Result;
                 return RedirectToAction("Index", "Home");
- 
+
             }
 
             return View(loginViewModel);
@@ -71,14 +71,43 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
                 return RedirectToAction("RegisterOK");
             }
 
-            
-            
+
+
             return View();
         }
 
         public ActionResult RegisterOK()
         {
             return View();
+        }
+
+        public ActionResult UserActivate(Guid Id)
+        {
+            UserManager userMan = new UserManager();
+            BusinessLayerResult<UserModel> result = userMan.ActivateUser(Id);
+
+            if (result.Errors.Count > 0)
+            {
+                TempData["errors"] = result.Errors;
+                return RedirectToAction("UserActivateCancel");
+            }
+
+            return RedirectToAction("UserActivateOK");
+        }
+
+        public ActionResult UserActivateOK()
+        {
+            return View();
+        }
+
+        public ActionResult UserActivateCancel()
+        {
+            List<ErrorMessageObject> errors = null;
+            if (TempData["errors"] != null)
+            {
+                errors = TempData["errors"] as List<ErrorMessageObject>;
+            }
+            return View(errors);
         }
     }
 }

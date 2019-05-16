@@ -8,7 +8,10 @@ namespace NoteSharingPlatform.ENTITY.Messages
         EmailAlreadyExists = 102,
         UserIsNotActive = 151,
         UsernameOrPassWrong = 152,
-        CheckYourEmail = 153
+        CheckYourEmail = 153,
+        UserAlreadyActivate = 154,
+        ActivateIdDoesNotExists = 155
+
 
     }
 }
