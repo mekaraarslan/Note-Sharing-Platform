@@ -49,10 +49,10 @@ namespace NoteSharingPlatform.DAL.EntityFramework
             if (obj is MyEntityBase)
             {
                 MyEntityBase o = obj as MyEntityBase;
-                DateTime createdOn = DateTime.Now;
+                DateTime now = DateTime.Now;
 
-                o.CreatedOn = createdOn;
-                o.ModifiedOn = createdOn;
+                o.CreatedOn = now;
+                o.ModifiedOn = now;
                 o.ModifiedUsername = "system"; // TODO: Buraya aktif olan username gelecek.
             }
             
@@ -61,6 +61,14 @@ namespace NoteSharingPlatform.DAL.EntityFramework
 
         public int Update(T obj)
         {
+            if (obj is MyEntityBase)
+            {
+                MyEntityBase o = obj as MyEntityBase;
+
+                o.ModifiedOn = DateTime.Now;
+                o.ModifiedUsername = "system"; // TODO: Buraya aktif olan username gelecek.
+            }
+
             return Save();
         }
 

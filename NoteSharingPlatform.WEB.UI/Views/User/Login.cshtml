@@ -1,4 +1,4 @@
-﻿@using NoteSharingPlatform.WEB.UI.ViewModels
+﻿@using NoteSharingPlatform.ENTITY.ViewModels
 @model LoginViewModel
 
 @{
@@ -18,6 +18,10 @@
 <body>
     <div>
         <div class="login-box">
+
+            @Html.ValidationSummary(false)
+            <br /><br />
+
             <form method="post">
                 <div class="input-section">
                     <i class="far fa-user"></i>

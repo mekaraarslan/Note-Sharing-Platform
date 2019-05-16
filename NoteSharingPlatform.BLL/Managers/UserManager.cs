@@ -1,4 +1,5 @@
 ﻿using NoteSharingPlatform.DAL.EntityFramework;
+using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.ENTITY.ViewModels;
 using System;
@@ -7,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace NoteSharingPlatform.BLL.Managers
 {
     public class UserManager
     {
         private Repository<UserModel> userRep = new Repository<UserModel>();
 
-       public BusinessLayerResult<UserModel> RegisterUser(RegisterViewModel registerViewModel)
+        public BusinessLayerResult<UserModel> RegisterUser(RegisterViewModel registerViewModel)
         {
             UserModel user = userRep.Find(x => x.Username == registerViewModel.Username || x.Email == registerViewModel.Email);
             BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
@@ -22,11 +24,12 @@ namespace NoteSharingPlatform.BLL.Managers
             {
                 if (user.Username == registerViewModel.Username)
                 {
-                    userResult.Errors.Add("Bu kullanıcı adı kayıtlı !!!");
+                    userResult.AddError(ErrorMessageCode.UsernameAlreadyExists,"Bu kullanıcı adı kayıtlı !!!");
                 }
                 if (user.Email == registerViewModel.Email)
                 {
-                    userResult.Errors.Add("Bu e-posta adresi kayıtlı !!!");
+                    userResult.AddError(ErrorMessageCode.EmailAlreadyExists, "Bu e-posta adresi kayıtlı !!!");
+                   
                 }
             }
             else
@@ -39,17 +42,43 @@ namespace NoteSharingPlatform.BLL.Managers
                     ActivateGuid = Guid.NewGuid(),
                     IsActive = false,
                     IsAdmin = false
-                 
+
                 });
 
                 if (dbResult > 0)
                 {
-                   userResult.Result = userRep.Find(x => x.Email == registerViewModel.Email && x.Username == registerViewModel.Username);
-                   
+                    userResult.Result = userRep.Find(x => x.Email == registerViewModel.Email && x.Username == registerViewModel.Username);
+
                 }
             }
 
             return userResult;
+        }
+
+        public BusinessLayerResult<UserModel> LoginUser (LoginViewModel loginViewModel)
+        {
+            //Giriş kontrolü
+            //Hesap aktive edilmiş mi?
+            BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
+            userResult.Result = userRep.Find(x => x.Username == loginViewModel.Username && x.Password == loginViewModel.Password);
+
+            if (userResult.Result != null)
+            {
+                if (!userResult.Result.IsActive)
+                {
+                    userResult.AddError(ErrorMessageCode.UserIsNotActive, "Kullanıcı aktifleştirilmemiştir.");
+                    userResult.AddError(ErrorMessageCode.CheckYourEmail, "Lütfen e-posta adresinizi kontrol ediniz.");
+                }
+
+            }
+            else
+            {
+                userResult.AddError(ErrorMessageCode.UsernameOrPassWrong, "Kullanıcı adı veya şifre doğru değil.");
+            }
+
+
+            return userResult;
+
         }
     }
 }
