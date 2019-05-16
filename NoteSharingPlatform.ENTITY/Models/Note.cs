@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoteSharingPlatform.ENTITY.Models
 {
-    public class Note 
+    public class Note  : MyEntityBase
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -15,9 +15,9 @@ namespace NoteSharingPlatform.ENTITY.Models
         public int LikeCount { get; set; }
         public int CategoryId { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public string ModifiedUserName { get; set; }
+        //public DateTime CreatedOn { get; set; }
+        //public DateTime ModifiedOn { get; set; }
+        //public string ModifiedUserName { get; set; }
 
 
         public virtual UserModel Owner { get; set; }

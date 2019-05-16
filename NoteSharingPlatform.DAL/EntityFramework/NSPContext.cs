@@ -29,7 +29,9 @@ namespace NoteSharingPlatform.DAL.EntityFramework
 
            
             mb.Entity<Comment>().HasKey(x => x.Id);
-
+            mb.Entity<Category>().HasKey(x => x.Id);
+            mb.Entity<Note>().HasKey(x => x.Id);
+            mb.Entity<UserModel>().HasKey(x => x.Id);
 
             mb.Entity<Liked>().HasKey(x => x.Id);
             mb.Entity<Liked>().ToTable("Likes");
@@ -37,12 +39,6 @@ namespace NoteSharingPlatform.DAL.EntityFramework
             #endregion
 
             #region Column Settings
-
-            // MyEntitiesBase Column Settings
-            //mb.Entity<MyEntityBase>().Property(x => x.CreatedOn).IsRequired();
-            //mb.Entity<MyEntityBase>().Property(x => x.ModifiedOn).IsRequired();
-            //mb.Entity<MyEntityBase>().Property(x => x.ModifiedUserName).HasMaxLength(50).IsRequired();
-
 
             // Category Column Settings
             mb.Entity<Category>().Property(x => x.Title).HasMaxLength(50).IsRequired();
@@ -66,8 +62,6 @@ namespace NoteSharingPlatform.DAL.EntityFramework
             mb.Entity<Note>().Property(x => x.Title).HasMaxLength(100).IsRequired();
             mb.Entity<Note>().Property(x => x.Text).HasMaxLength(3000).IsRequired();
 
-
-           
 
             #endregion
 

@@ -1,5 +1,6 @@
 ﻿using NoteSharingPlatform.DAL;
 using NoteSharingPlatform.DAL.Abstract;
+using NoteSharingPlatform.ENTITY.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -44,6 +45,17 @@ namespace NoteSharingPlatform.DAL.EntityFramework
         public int Insert(T obj)
         {
             _objectSet.Add(obj);
+
+            if (obj is MyEntityBase)
+            {
+                MyEntityBase o = obj as MyEntityBase;
+                DateTime createdOn = DateTime.Now;
+
+                o.CreatedOn = createdOn;
+                o.ModifiedOn = createdOn;
+                o.ModifiedUsername = "system"; // TODO: Buraya aktif olan username gelecek.
+            }
+            
             return Save();
         }
 

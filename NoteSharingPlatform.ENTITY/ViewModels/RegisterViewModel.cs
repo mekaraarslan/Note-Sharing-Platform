@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace NoteSharingPlatform.WEB.UI.ViewModels
+namespace NoteSharingPlatform.ENTITY.ViewModels
 {
     public class RegisterViewModel
     {

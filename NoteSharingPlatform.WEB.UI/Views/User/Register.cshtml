@@ -1,4 +1,4 @@
-﻿@using NoteSharingPlatform.WEB.UI.ViewModels
+﻿@using NoteSharingPlatform.ENTITY.ViewModels
 @model RegisterViewModel
 
 @{
@@ -16,29 +16,54 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400" rel="stylesheet">
     <link href="~/Content/Login/Login.css" rel="stylesheet" />
     <title>Kayıt Ol</title>
+
+    <style type="text/css">
+
+        .validation-summary-errors {
+            border: 2px dotted white;
+            background-color: #d76663;
+            border-radius: 10px;
+        }
+
+            .validation-summary-errors ul {
+                list-style-type: none;
+                padding: 10px;
+                
+            }
+
+                .validation-summary-errors ul li {
+                    padding-top:5px;
+                    font-family:'Century Gothic';
+                    color:white;
+                }
+    </style>
+
 </head>
 <body>
     <div>
         <div class="login-box">
+            @Html.ValidationSummary(false)
+            <br /><br />
             <form method="post">
+
                 <div class="input-section">
                     <i class="fa fa-user"></i>
-                    
-                    @Html.TextBoxFor(x => x.Username, new { @class = "input-area", placeholder = "Kullanıcı adı" , autocomplete = "off" })
+                    @Html.TextBoxFor(x => x.Username, new { @class = "input-area", placeholder = "Kullanıcı adı", autocomplete = "off" })
                 </div>
                 <div class="input-section">
                     <i class="fa fa-envelope-o"></i>
-                    @Html.TextBoxFor(x => x.Email, new { @class = "input-area", placeholder = "E-Mail adresi" , type="email" , autocomplete = "off" })
+                    @Html.TextBoxFor(x => x.Email, new { @class = "input-area", placeholder = "E-Mail adresi", type = "email", autocomplete = "off" })
                 </div>
                 <div class="input-section">
                     <i class="fa fa-lock"></i>
-                    @Html.TextBoxFor(x => x.Password, new { @class = "input-area", placeholder = "Şifre", type = "password" , autocomplete = "off" })
+                    @Html.TextBoxFor(x => x.Password, new { @class = "input-area", placeholder = "Şifre", type = "password", autocomplete = "off" })
                 </div>
                 <div class="input-section">
                     <i class="fa fa-lock"></i>
-                        @Html.TextBoxFor(x => x.RePassword, new { @class = "input-area", placeholder = "Şifre Tekrar", type = "password", autocomplete = "off" })
-                    
+                    @Html.TextBoxFor(x => x.RePassword, new { @class = "input-area", placeholder = "Şifre Tekrar", type = "password", autocomplete = "off" })
+
                 </div>
+
 
 
                 <button type="submit" class="btn" id="login-btn">Kayıt Ol</button>

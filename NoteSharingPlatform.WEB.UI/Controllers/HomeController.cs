@@ -1,6 +1,5 @@
 ﻿using NoteSharingPlatform.BLL.Managers;
 using NoteSharingPlatform.ENTITY.Models;
-using NoteSharingPlatform.WEB.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,32 +34,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
             return View();
         }
 
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Login(LoginViewModel loginViewModel)
-        {
-            return View();
-        }
-
-        public ActionResult Logout()
-        {
-            return View();
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Register(RegisterViewModel registerViewModel)
-        {
-            return View();
-        }
+       
     }
 
    

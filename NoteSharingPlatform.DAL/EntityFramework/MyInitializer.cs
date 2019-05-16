@@ -26,7 +26,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                 Password = "10432",
                 CreatedOn = DateTime.Now,
                 ModifiedOn = DateTime.Now.AddMinutes(5),
-                ModifiedUserName = "mekaraarslan"
+                ModifiedUsername = "mekaraarslan"
             };
 
             // Adding standart user
@@ -42,7 +42,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                 Password = "123456",
                 CreatedOn = DateTime.Now.AddHours(5),
                 ModifiedOn = DateTime.Now.AddMinutes(65),
-                ModifiedUserName = "mekaraarslan"
+                ModifiedUsername = "mekaraarslan"
             };
 
             context.UserModels.Add(admin);
@@ -65,7 +65,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                     Password = "123",
                     CreatedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
                     ModifiedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
-                    ModifiedUserName = $"user{i * i * i - i * 9}"
+                    ModifiedUsername = $"user{i * i * i - i * 9}"
                 };
                 context.UserModels.Add(fakeUser);
             }
@@ -85,7 +85,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                     Description = FakeData.PlaceData.GetAddress(),
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now,
-                    ModifiedUserName = "mekaraarslan"
+                    ModifiedUsername = "mekaraarslan"
                 };
 
                 context.Categories.Add(category);
@@ -103,7 +103,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                         Owner = note_owner,
                         CreatedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
                         ModifiedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
-                        ModifiedUserName = note_owner.Username
+                        ModifiedUsername = note_owner.Username
                     };
 
                     category.Notes.Add(note);
@@ -119,7 +119,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                             UserModel = comment_owner,
                             CreatedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
                             ModifiedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
-                            ModifiedUserName = comment_owner.Username,
+                            ModifiedUsername = comment_owner.Username,
 
                         };
 
