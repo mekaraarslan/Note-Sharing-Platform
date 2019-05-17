@@ -14,6 +14,9 @@ namespace NoteSharingPlatform.ENTITY.Models
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ProfileImageFileName { get; set; }
+
+
         public bool IsActive { get; set; }
         public Guid ActivateGuid { get; set; }
         public bool IsAdmin { get; set; }

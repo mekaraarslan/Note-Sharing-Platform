@@ -24,6 +24,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                 IsAdmin = true,
                 Username = "mekaraarslan",
                 Password = "10432",
+                ProfileImageFileName = "DefaultProfileImage.png",
                 CreatedOn = DateTime.Now,
                 ModifiedOn = DateTime.Now.AddMinutes(5),
                 ModifiedUsername = "mekaraarslan"
@@ -40,6 +41,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                 IsAdmin = false,
                 Username = "emirhanka",
                 Password = "123456",
+                ProfileImageFileName = "DefaultProfileImage.png",
                 CreatedOn = DateTime.Now.AddHours(5),
                 ModifiedOn = DateTime.Now.AddMinutes(65),
                 ModifiedUsername = "mekaraarslan"
@@ -63,6 +65,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
                     IsAdmin = false,
                     Username = $"user{i * i * i - i * 9}",
                     Password = "123",
+                    ProfileImageFileName = "DefaultProfileImage.png",
                     CreatedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
                     ModifiedOn = FakeData.DateTimeData.GetDatetime(DateTime.Now.AddYears(-1), DateTime.Now),
                     ModifiedUsername = $"user{i * i * i - i * 9}"

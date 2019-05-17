@@ -56,7 +56,7 @@ namespace NoteSharingPlatform.DAL.EntityFramework
             mb.Entity<UserModel>().Property(x => x.Email).HasMaxLength(80).IsRequired();
             mb.Entity<UserModel>().Property(x => x.Password).HasMaxLength(250).IsRequired();
             mb.Entity<UserModel>().Property(x => x.ActivateGuid).IsRequired();
-
+            mb.Entity<UserModel>().Property(x => x.ProfileImageFileName).HasMaxLength(50);
 
             // Note Column Settings
             mb.Entity<Note>().Property(x => x.Title).HasMaxLength(100).IsRequired();
