@@ -48,7 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayerResult.cs" />
+    <Compile Include="Results\BusinessLayerResult.cs" />
+    <Compile Include="Abstract\ManagerBase.cs" />
     <Compile Include="Managers\CategoryManager.cs" />
     <Compile Include="Managers\NoteManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\NoteSharingPlatform.COMMON\NoteSharingPlatform.COMMON.csproj">
       <Project>{e0e0d871-7015-496f-ac91-7d7abcfb6463}</Project>
       <Name>NoteSharingPlatform.COMMON</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoteSharingPlatform.CORE\NoteSharingPlatform.CORE.csproj">
+      <Project>{01c9e7de-0f14-4473-bb0d-9b67acc165af}</Project>
+      <Name>NoteSharingPlatform.CORE</Name>
     </ProjectReference>
     <ProjectReference Include="..\NoteSharingPlatform.DAL\NoteSharingPlatform.DAL.csproj">
       <Project>{145c3dd7-7e3c-4250-896e-72a50389ed23}</Project>
@@ -72,5 +77,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

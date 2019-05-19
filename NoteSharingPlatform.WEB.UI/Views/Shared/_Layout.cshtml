@@ -51,11 +51,34 @@
 
                     @if (user != null)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        <li class="">
+                            <a class="" href="#">
+
+                            </a>
+                        </li>
+
+                        <li class=" nav-item dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                                 Yönetim Paneli
                             </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="/Note/AddNew"> <i class="fa fa-plus"></i> Not Ekle</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Note/MyNotes"> <i class="fa fa-pencil-square-o"></i> Notlarım</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Note/MyLikedNotes"> <i class="fa fa-heart"></i> Beğendiklerim</a>
+                                <div class="dropdown-divider"></div>
+
+                                @if (user.IsAdmin)
+                                {
+                                    <a class="dropdown-item" href="/Category/AddNew"> <i class="fa fa-plus"></i> Kategori Ekle</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Category/List"> <i class="fa fa-list-ul"></i> Kategoriler</a>
+                                }
+
+                            </div>
                         </li>
                     }
 
@@ -125,52 +148,7 @@
     @RenderBody()
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark container-fluid">
-        <div class="row ">
-            <div class="col-md-4 text-center text-white">
-                <h5>
-                    <strong>Site Haritası</strong>
-                </h5>
-                <hr class="bg-white" />
-                <p>
-                    <h5><a id="clearLink" href="/Home/MostLiked"><i class="fa fa-heart"></i> En Beğenilenler</a></h5>
-                    <h5><a id="clearLink" href="/Home/Index"><i class="fa fa-th-list"></i> Son Yazılanlar</a></h5>
-                    <h5><a id="clearLink" href="/Home/About"><i class="fa fa-info-circle"></i> Hakkımızda</a></h5>
-                </p>
-
-            </div>
-            <div class="col-md-4 text-center text-white">
-                <h5>
-                    <strong>Note Sharing Platform</strong>
-                </h5>
-                <hr class="bg-white" />
-                <p>
-                    Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.
-                </p>
-                <p>
-                    Tüm hakları saklıdır &copy; Note Sharing Platform @DateTime.Now.Year
-                </p>
-
-            </div>
-            <div class="col-md-4 text-center text-white">
-                <h5>
-                    <strong>E-Bülten Üyeliği</strong>
-                </h5>
-                <hr class="bg-white" />
-
-                <div class="col-md-12 row justify-content-center ">
-                    <p>
-                        Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicu
-                    </p>
-                    <div class="col col-md-7"><input type="email" placeholder="E-Posta adresiniz" autocomplete="off" name="name" class="form-control " /></div>
-                    <button type="submit" class="btn  btn-success"><span class="fa fa-send"></span> Gönder</button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- /.container -->
-    </footer>
+    @RenderSection("footer", required: false)
     <!-- Bootstrap core JavaScript -->
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>

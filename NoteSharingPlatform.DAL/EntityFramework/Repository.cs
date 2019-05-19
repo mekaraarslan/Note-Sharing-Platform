@@ -1,18 +1,15 @@
 ﻿using NoteSharingPlatform.COMMON;
-using NoteSharingPlatform.DAL;
-using NoteSharingPlatform.DAL.Abstract;
+using NoteSharingPlatform.CORE.DataAccess;
 using NoteSharingPlatform.ENTITY.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoteSharingPlatform.DAL.EntityFramework
 {
-    public class Repository<T> :RepositoryBase , IRepository<T> where T: class
+    public class Repository<T> :RepositoryBase , IDataAccess<T> where T: class
     {
         private NSPContext _db;
         private DbSet<T> _objectSet;

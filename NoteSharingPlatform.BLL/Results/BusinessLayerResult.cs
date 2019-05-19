@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NoteSharingPlatform.BLL
+namespace NoteSharingPlatform.BLL.Results
 {
     public class BusinessLayerResult<T> where T : class
     {

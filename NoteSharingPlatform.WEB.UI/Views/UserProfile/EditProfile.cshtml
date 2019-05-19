@@ -1,8 +1,129 @@
-﻿
+﻿@using NoteSharingPlatform.ENTITY.Models
+@model UserModel
+
 @{
     ViewBag.Title = "EditProfile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>EditProfile</h2>
+<style>
+    .myProfileImage {
+        width: 150px;
+        height: 150px;
+        margin-left: 20%;
+    }
+
+    .myFileInput {
+        width: 100%;
+        height: 35px;
+    }
+
+    .myInfoMsg {
+        font-family: 'Century Gothic';
+        margin-top: 3%;
+    }
+
+    .myHeader {
+        font-family: 'Century Gothic';
+        margin-top: 3%;
+    }
+
+    .myInputs {
+        font-family: 'Century Gothic';
+    }
+</style>
+<link href="~/Content/Validation-Summary.css" rel="stylesheet" />
+
+<div class="container">
+    <form action="/UserProfile/EditProfile" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+            <div class="col col-md-12 myHeader">
+                <h1>Profil Düzenle</h1>
+                <hr />
+            </div>
+
+            <div class="col col-md-4 ">
+                <img src="~/Images/@Model.ProfileImageFileName" class="rounded-circle myProfileImage" />
+                @Html.HiddenFor(x=>x.ProfileImageFileName)
+                <br /><hr /><br />
+                <input type="file" name="profileImage" class="form-control myFileInput" />
+                <h6 class="myInfoMsg"> <i class="fa fa-info-circle"></i> Lütfen .jpg,.jpeg ya da .png formatı kullanın.</h6>
+            </div>
+            <div class="col col-8 myInputs ">
+
+               
+                <div class="form-group row">
+                    <div class="col col-md-3 ">
+                    </div>
+                    <div class="col col-md-8 ">
+                        @Html.ValidationSummary(false)
+                        @Html.HiddenFor(model => model.Id)
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col col-md-3 ">
+                        <h4 class=" text-md-right">Adınız :</h4>
+                    </div>
+                    <div class="col col-md-8 ">
+                        @Html.TextBoxFor(x => x.Name, htmlAttributes: new { @class = "form-control col-md-12", placeholder = "Adınız" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col col-md-3 y">
+                        <h4 class=" text-md-right">Soyadınız :</h4>
+                    </div>
+                    <div class="col col-md-8 ">
+                        @Html.TextBoxFor(x => x.Surname, htmlAttributes: new { @class = "form-control col-md-12", placeholder = "Soyadınız" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col col-md-3 ">
+                        <h4 class=" text-md-right">Kullanıcı Adınız: </h4>
+                    </div>
+                    <div class="col col-md-8 ">
+                        @Html.TextBoxFor(x => x.Username, htmlAttributes: new { @class = "form-control col-md-12", placeholder = "Kullanıcı Adınız" })
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col col-md-3 ">
+                        <h4 class=" text-md-right">E-Posta Adresiniz : </h4>
+                    </div>
+                    <div class="col col-md-8 ">
+                        @Html.TextBoxFor(x => x.Email, htmlAttributes: new { @class = "form-control col-md-12", placeholder = "E-Posta Adresiniz", type = "email" })
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col col-md-3">
+                        <h4 class=" text-md-right">Şifreniz : </h4>
+                    </div>
+                    <div class="col col-md-8">
+                        @Html.TextBoxFor(x => x.Password, htmlAttributes: new { @class = "form-control col-md-12", placeholder = "Şifreniz", type = "password" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col col-md-3">
+
+                    </div>
+                    <div class="col col-md-8  ">
+                        <button type="submit" class="btn btn-success  col-md-4">Kaydet</button>
+                        <a href="/UserProfile/ShowProfile" class="btn btn-secondary col-md-4">İptal</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
 

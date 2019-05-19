@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="EntityFramework\Repository.cs" />
     <Compile Include="EntityFramework\RepositoryBase.cs" />
     <Compile Include="EntityFramework\MyInitializer.cs" />
@@ -67,10 +66,17 @@
       <Project>{e0e0d871-7015-496f-ac91-7d7abcfb6463}</Project>
       <Name>NoteSharingPlatform.COMMON</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NoteSharingPlatform.CORE\NoteSharingPlatform.CORE.csproj">
+      <Project>{01c9e7de-0f14-4473-bb0d-9b67acc165af}</Project>
+      <Name>NoteSharingPlatform.CORE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NoteSharingPlatform.ENTITY\NoteSharingPlatform.ENTITY.csproj">
       <Project>{A8BCEC6F-F75C-4632-AC4F-F15D481F70B3}</Project>
       <Name>NoteSharingPlatform.ENTITY</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

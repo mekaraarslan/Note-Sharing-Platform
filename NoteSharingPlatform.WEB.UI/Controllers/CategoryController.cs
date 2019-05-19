@@ -1,37 +1,127 @@
-﻿using NoteSharingPlatform.BLL.Managers;
-using NoteSharingPlatform.ENTITY.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using NoteSharingPlatform.BLL.Managers;
+using NoteSharingPlatform.ENTITY.Models;
+
 
 namespace NoteSharingPlatform.WEB.UI.Controllers
 {
     public class CategoryController : Controller
     {
-        // GET: Category
-        public ActionResult Select(int? id)
+        CategoryManager categoryMan = new CategoryManager();
+        
+        public ActionResult Index()
+        {
+            return View(categoryMan.List());
+        }
+
+        public ActionResult ByCategory (int? id)
         {
             if (id == null)
             {
-                // Id boş ise bir hata mesajı çıkartıyoruz.
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             CategoryManager categoryMan = new CategoryManager();
-            Category category = categoryMan.GetCategoryById(id.Value); // Null olabilir dediğimiz için herhangi bir değer vermek gerekir.
+            Category category = categoryMan.Find(x => x.Id == id.Value);
 
             if (category == null)
             {
                 return HttpNotFound();
             }
 
-            TempData["note"] = category.Notes;
-            return RedirectToAction("Index", "Home");
+            return View("Index", category.Notes.OrderByDescending(x => x.ModifiedOn).ToList());
         }
 
-       
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = categoryMan.Find(x => x.Id == id.Value);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+
+                categoryMan.Insert(category);
+                return RedirectToAction("Index");
+            }
+
+            return View(category);
+        }
+
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = categoryMan.Find(x => x.Id == id.Value);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,CreatedOn,ModifiedOn,ModifiedUsername")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                // TODO : Incele
+                categoryMan.Update(category);
+                return RedirectToAction("Index");
+            }
+            return View(category);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = categoryMan.Find(x => x.Id == id.Value);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Category category = categoryMan.Find(x => x.Id == id);
+            categoryMan.Delete(category);
+            return RedirectToAction("Index");
+        }
+
+        
     }
 }

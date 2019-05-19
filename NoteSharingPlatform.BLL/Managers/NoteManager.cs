@@ -1,4 +1,5 @@
-﻿using NoteSharingPlatform.DAL.EntityFramework;
+﻿using NoteSharingPlatform.BLL.Abstract;
+using NoteSharingPlatform.DAL.EntityFramework;
 using NoteSharingPlatform.ENTITY.Models;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,7 @@ using System.Threading.Tasks;
 
 namespace NoteSharingPlatform.BLL.Managers
 {
-    public class NoteManager
+    public class NoteManager : ManagerBase<Note>
     {
-        private Repository<Note> noteRep = new Repository<Note>();
-        public List<Note> GetAllNote()
-        {
-            return noteRep.List();
-        }
-
     }
 }

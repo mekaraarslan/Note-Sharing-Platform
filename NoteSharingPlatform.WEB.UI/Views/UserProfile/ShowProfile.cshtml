@@ -9,7 +9,8 @@
 <style>
     .myProfileImage
     {
-        width:100%;
+        width:200px;
+        height:200px;
         margin-top:4%;
     }
 
@@ -35,7 +36,7 @@
     </div>
     <div class="row">
         <div class="col col-md-2 ">
-            <img src="~/Images/@Model.ProfileImageFileName" class="myProfileImage rounded mx-auto d-block" alt="Alternate Text" />
+            <img src="~/Images/@Model.ProfileImageFileName" class="myProfileImage rounded-circle  mx-auto d-block" alt="Alternate Text" />
         </div>
         <div class="col col-md-7 text-center">
             <div class="myUserInfo">
@@ -66,7 +67,7 @@
                 <hr />
                 <hr />
                 <hr />
-                <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Hesabınızı silmek istediğinize emin misiniz ?')" class="btn btn-danger btn-lg btn-block ">
+                <a href="@Url.Action("RemoveProfile")" onclick="return confirm('Hesabınızı silmek istediğinize emin misiniz ?')" class="btn btn-danger btn-lg btn-block ">
                     <i class="fa fa-trash-o"></i>
                     Profilimi Sil
                 </a>

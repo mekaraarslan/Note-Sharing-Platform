@@ -1,4 +1,6 @@
-﻿using NoteSharingPlatform.COMMON.Helpers;
+﻿using NoteSharingPlatform.BLL.Abstract;
+using NoteSharingPlatform.BLL.Results;
+using NoteSharingPlatform.COMMON.Helpers;
 using NoteSharingPlatform.DAL.EntityFramework;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
@@ -12,30 +14,29 @@ using System.Threading.Tasks;
 
 namespace NoteSharingPlatform.BLL.Managers
 {
-    public class UserManager
+    public class UserManager : ManagerBase<UserModel>
     {
-        private Repository<UserModel> userRep = new Repository<UserModel>();
 
         public BusinessLayerResult<UserModel> RegisterUser(RegisterViewModel registerViewModel)
         {
-            UserModel user = userRep.Find(x => x.Username == registerViewModel.Username || x.Email == registerViewModel.Email);
+            UserModel user = Find(x => x.Username == registerViewModel.Username || x.Email == registerViewModel.Email);
             BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
 
             if (user != null)
             {
                 if (user.Username == registerViewModel.Username)
                 {
-                    userResult.AddError(ErrorMessageCode.UsernameAlreadyExists,"Bu kullanıcı adı kayıtlı !!!");
+                    userResult.AddError(ErrorMessageCode.UsernameAlreadyExists, "Bu kullanıcı adı kayıtlı !!!");
                 }
                 if (user.Email == registerViewModel.Email)
                 {
                     userResult.AddError(ErrorMessageCode.EmailAlreadyExists, "Bu e-posta adresi kayıtlı !!!");
-                   
+
                 }
             }
             else
             {
-                int dbResult = userRep.Insert(new UserModel()
+                int dbResult = Insert(new UserModel()
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
@@ -49,12 +50,12 @@ namespace NoteSharingPlatform.BLL.Managers
 
                 if (dbResult > 0)
                 {
-                    userResult.Result = userRep.Find(x => x.Email == registerViewModel.Email && x.Username == registerViewModel.Username);
+                    userResult.Result = Find(x => x.Email == registerViewModel.Email && x.Username == registerViewModel.Username);
                     string siteUri = ConfigHelper.Get<string>("SiteRootUri");
                     string activateUri = $"{siteUri}/User/UserActivate/{userResult.Result.ActivateGuid}";
                     string body = $"Merhaba {userResult.Result.Username} ; <br/><br/>Hesabınızı aktifleştirmek için <a href = '{activateUri}' target =_blank'> tıklayınız. </a>";
 
-                    MailHelper.SendMail(body , userResult.Result.Email,"Note Sharing Platform Hesap Aktifleştirme");
+                    MailHelper.SendMail(body, userResult.Result.Email, "Note Sharing Platform Hesap Aktifleştirme");
 
                 }
             }
@@ -65,7 +66,7 @@ namespace NoteSharingPlatform.BLL.Managers
         public BusinessLayerResult<UserModel> GetUserById(int id)
         {
             BusinessLayerResult<UserModel> res = new BusinessLayerResult<UserModel>();
-            res.Result = userRep.Find(x => x.Id == id);
+            res.Result = Find(x => x.Id == id);
 
             if (res.Result == null)
             {
@@ -75,12 +76,12 @@ namespace NoteSharingPlatform.BLL.Managers
             return res;
         }
 
-        public BusinessLayerResult<UserModel> LoginUser (LoginViewModel loginViewModel)
+        public BusinessLayerResult<UserModel> LoginUser(LoginViewModel loginViewModel)
         {
             //Giriş kontrolü
             //Hesap aktive edilmiş mi?
             BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
-            userResult.Result = userRep.Find(x => x.Username == loginViewModel.Username && x.Password == loginViewModel.Password);
+            userResult.Result = Find(x => x.Username == loginViewModel.Username && x.Password == loginViewModel.Password);
 
             if (userResult.Result != null)
             {
@@ -101,20 +102,20 @@ namespace NoteSharingPlatform.BLL.Managers
 
         }
 
-        public BusinessLayerResult<UserModel> ActivateUser (Guid activateId)
+        public BusinessLayerResult<UserModel> ActivateUser(Guid activateId)
         {
             BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
-            userResult.Result = userRep.Find(x => x.ActivateGuid == activateId);
+            userResult.Result = Find(x => x.ActivateGuid == activateId);
 
             if (userResult != null)
             {
                 if (userResult.Result.IsActive)
                 {
-                    userResult.AddError(ErrorMessageCode.UserAlreadyActivate,"Kullanıcı zaten aktif edilmiştir.");
+                    userResult.AddError(ErrorMessageCode.UserAlreadyActivate, "Kullanıcı zaten aktif edilmiştir.");
                     return userResult;
                 }
                 userResult.Result.IsActive = true;
-                userRep.Update(userResult.Result);
+                Update(userResult.Result);
             }
             else
             {
@@ -123,6 +124,64 @@ namespace NoteSharingPlatform.BLL.Managers
             }
 
             return userResult;
+        }
+
+        public BusinessLayerResult<UserModel> UpdateProfile(UserModel model)
+        {
+            UserModel user = Find(x=>x.Id != model.Id && (x.Username == model.Username || x.Email == model.Email));
+            BusinessLayerResult<UserModel> result = new BusinessLayerResult<UserModel>();
+
+            if (user != null && user.Id != model.Id)
+            {
+                if (user.Username == model.Username)
+                {
+                    result.AddError(ErrorMessageCode.UsernameAlreadyExists, "Bu kullanıcı adı zaten kayıtlı");
+                }
+                if (user.Email == model.Email)
+                {
+                    result.AddError(ErrorMessageCode.EmailAlreadyExists, "Bu mail adresi zaten kayıtlı");
+
+                }
+                return result;
+            }
+
+            result.Result = Find(x => x.Id == model.Id);
+            result.Result.Name = model.Name;
+            result.Result.Surname = model.Surname;
+            result.Result.Username = model.Username;
+            result.Result.Email = model.Email;
+            result.Result.Password = model.Password;
+
+            if (string.IsNullOrEmpty(model.ProfileImageFileName) == false)
+            {
+                result.Result.ProfileImageFileName = model.ProfileImageFileName;
+            }
+            if (Update(result.Result) == 0)
+            {
+                result.AddError(ErrorMessageCode.ProfileCouldNotUpdated, "Profil Güncellenemedi.");
+            }
+
+            return result;
+        }
+
+        public BusinessLayerResult<UserModel> RemoveUserById(int id)
+        {
+            BusinessLayerResult<UserModel> result = new BusinessLayerResult<UserModel>();
+            UserModel user = Find(x => x.Id == id);
+
+            if (user != null)
+            {
+                if (Delete(user) == 0 )
+                {
+                    result.AddError(ErrorMessageCode.UserCouldNotRemove, "Kullanıcı silinemedi.");
+                    return result;
+                }
+            }
+            else
+            {
+                result.AddError(ErrorMessageCode.UserCouldNotFind, "Kullanıcı bulunamadı.");
+            }
+            return result;
         }
     }
 }

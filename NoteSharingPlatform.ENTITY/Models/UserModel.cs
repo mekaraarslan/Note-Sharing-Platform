@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,11 @@ namespace NoteSharingPlatform.ENTITY.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        [Required , Display(Name = "Kullanıcı Adı")]
         public string Username { get; set; }
+        [Required, Display(Name = "E-Posta ")]
         public string Email { get; set; }
+        [Required, Display(Name = "Şifre")]
         public string Password { get; set; }
         public string ProfileImageFileName { get; set; }
 

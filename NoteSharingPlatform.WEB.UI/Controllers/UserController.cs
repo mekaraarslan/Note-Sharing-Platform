@@ -1,5 +1,6 @@
 ﻿using NoteSharingPlatform.BLL;
 using NoteSharingPlatform.BLL.Managers;
+using NoteSharingPlatform.BLL.Results;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.ENTITY.ViewModels;
@@ -15,6 +16,8 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 {
     public class UserController : Controller
     {
+        private UserManager userMan = new UserManager();
+
         public ActionResult Login()
         {
             return View();
@@ -25,7 +28,6 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserManager userMan = new UserManager();
                 loginViewModel.Password = Crypto.SHA256(loginViewModel.Password);
                 BusinessLayerResult<UserModel> userResult = userMan.LoginUser(loginViewModel);
                 loginViewModel.Password = string.Empty; // Kullanıcı şifre güvenliği için şifre sessionda tutulmamalıdır.Bu yüzden password değerini sıfırlıyoruz.
@@ -60,7 +62,6 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
             if (ModelState.IsValid)
             {
 
-                UserManager userMan = new UserManager();
                 registerViewModel.Password = Crypto.SHA256(registerViewModel.Password);
                 BusinessLayerResult<UserModel> userResult = userMan.RegisterUser(registerViewModel);
 
@@ -84,10 +85,9 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
             return View();
         }
 
-
         public ActionResult UserActivate(Guid Id)
         {
-            UserManager userMan = new UserManager();
+            
             BusinessLayerResult<UserModel> result = userMan.ActivateUser(Id);
 
             if (result.Errors.Count > 0)
@@ -108,7 +108,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
             };
             OKNotifyObject.Items.Add("Hesabınız aktifleştirildi. Artık not paylaşabilir ve  beğenme yapabilirsiniz.");
-            return View("OKView" , OKNotifyObject);
+            return View("OKView", OKNotifyObject);
         }
 
     }

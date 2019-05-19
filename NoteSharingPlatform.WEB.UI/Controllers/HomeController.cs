@@ -10,23 +10,18 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 {
     public class HomeController : Controller
     {
+        private NoteManager noteMan = new NoteManager();
         // GET: Home
         public ActionResult Index()
         {
-            if (TempData["note"] != null)
-            {
-                return View((TempData["note"] as List<Note>).OrderByDescending(x=>x.ModifiedOn).ToList());
-            }
-
-            NoteManager noteMan = new NoteManager();
-            return View(noteMan.GetAllNote().OrderByDescending(x=>x.ModifiedOn).ToList());
+            
+            return View(noteMan.ListQueryable().OrderByDescending(x=>x.ModifiedOn).ToList());
         }
 
         public ActionResult MostLiked()
         {
-            NoteManager noteMan = new NoteManager();
             
-            return View("Index",noteMan.GetAllNote().OrderByDescending(x=>x.LikeCount).ToList());
+            return View("Index",noteMan.ListQueryable().OrderByDescending(x=>x.LikeCount).ToList());
         }
 
         public ActionResult About()

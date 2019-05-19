@@ -1,5 +1,6 @@
 ﻿using NoteSharingPlatform.BLL;
 using NoteSharingPlatform.BLL.Managers;
+using NoteSharingPlatform.BLL.Results;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels;
@@ -7,17 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace NoteSharingPlatform.WEB.UI.Controllers
 {
     public class UserProfileController : Controller
     {
+        private UserManager userMan = new UserManager();
+
         [HttpGet]
         public ActionResult ShowProfile()
         {
             UserModel currentUser = Session["login"] as UserModel;
-            UserManager userMan = new UserManager();
             BusinessLayerResult<UserModel> res = userMan.GetUserById(currentUser.Id);
 
             if (res.Errors.Count > 0)
@@ -39,19 +42,69 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         [HttpGet]
         public ActionResult EditProfile()
         {
-            return View();
+            UserModel user = Session["login"] as UserModel;
+            return View(user);
         }
 
         [HttpPost]
-        public ActionResult EditProfile(UserModel user)
+        public ActionResult EditProfile(UserModel user , HttpPostedFileBase profileImage)
         {
-            return View();
+            ModelState.Remove("ModifiedUsername");
+
+            if (ModelState.IsValid)
+            {
+                if (profileImage != null &&
+                (profileImage.ContentType == "image/jpeg" ||
+                profileImage.ContentType == "image/jpg" ||
+                profileImage.ContentType == "image/png"))
+                {
+                    string fileName = $"userProfileImage_{user.Id}.{profileImage.ContentType.Split('/')[1]}";
+                    profileImage.SaveAs(Server.MapPath($"~/Images/{fileName}"));
+                    user.ProfileImageFileName = fileName;
+                }
+
+                //user.Password = Crypto.SHA256(user.Password);
+                BusinessLayerResult<UserModel> result = userMan.UpdateProfile(user);
+
+                if (result.Errors.Count > 0)
+                {
+                    ErrorViewModel errorNotifyObject = new ErrorViewModel()
+                    {
+                        Items = result.Errors,
+                        Title = "Profil Güncellenemedi !!!",
+                        RedirectingUrl = "/UserProfile/EditProfile",
+                        RedirectingTimeout = 3000
+                    };
+                    return View("ErrorView", errorNotifyObject);
+                }
+
+                Session["login"] = result.Result;  // Profil güncellendiği için sessionda güncellendi .
+                return RedirectToAction("ShowProfile");
+
+            }
+            return View(user);
         }
 
         [HttpGet]
         public ActionResult RemoveProfile()
         {
-            return View();
+            UserModel currentUser = Session["login"] as UserModel;
+            
+            BusinessLayerResult<UserModel> result = userMan.RemoveUserById(currentUser.Id);
+
+            if (result.Errors.Count>0)
+            {
+                ErrorViewModel errorNotifyObject= new ErrorViewModel()
+                {
+                    Items = result.Errors,
+                    Title = "Profil Silinemedi.",
+                    RedirectingUrl = "/UserProfile/ShowProfile",
+                    RedirectingTimeout = 3000
+                };
+                return View("ErrorView", errorNotifyObject);
+            }
+            Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
 
