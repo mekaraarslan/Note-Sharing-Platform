@@ -1,4 +1,8 @@
-﻿using NoteSharingPlatform.ENTITY.Models;
+﻿using NoteSharingPlatform.BLL;
+using NoteSharingPlatform.BLL.Managers;
+using NoteSharingPlatform.ENTITY.Messages;
+using NoteSharingPlatform.ENTITY.Models;
+using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +16,24 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         [HttpGet]
         public ActionResult ShowProfile()
         {
-            return View();
+            UserModel currentUser = Session["login"] as UserModel;
+            UserManager userMan = new UserManager();
+            BusinessLayerResult<UserModel> res = userMan.GetUserById(currentUser.Id);
+
+            if (res.Errors.Count > 0)
+            {
+                ErrorViewModel errorNotifyObject = new ErrorViewModel()
+                {
+                    Title = "Hata Oluştu",
+                    RedirectingTimeout = 4000,
+                    Items = res.Errors
+
+                };
+
+                return View("ErrorView", errorNotifyObject);
+            }
+
+            return View(res.Result);
         }
 
         [HttpGet]
@@ -32,6 +53,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         {
             return View();
         }
+
 
     }
 }

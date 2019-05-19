@@ -1,0 +1,74 @@
+﻿@using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels
+@using NoteSharingPlatform.ENTITY.Messages
+@model ErrorViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        .myContainer {
+            border: solid 2px black;
+            margin-top: 10%;
+            padding: 30px;
+            font-family: 'Century Gothic';
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="container ">
+            <div class="row">
+                <div class="col col-md-3"></div>
+                <div class="col col-md-6 myContainer alert-danger">
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <i class="fa fa-times fa-5x "></i>
+                    <hr />
+                    <h1>@Model.Title</h1>
+                    <hr />
+                    @foreach (ErrorMessageObject err in Model.Items)
+                    {
+                        @err.Message <br />
+                    }
+                    <hr />
+                    <h3>@Model.Header</h3>
+                </div>
+                <div class="col col-md-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+@{
+    string js = string.Empty;
+    if (Model.IsRedirecting)
+    {
+        js = "setTimeout(function() { window.location ='" + Model.RedirectingUrl + "';} ," + @Model.RedirectingTimeout + ");";
+    }
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        @Html.Raw(js);
+    })
+</script>
+
+

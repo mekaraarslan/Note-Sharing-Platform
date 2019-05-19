@@ -39,6 +39,7 @@ namespace NoteSharingPlatform.BLL.Managers
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
+                    ProfileImageFileName = "DefaultProfileImage.png",
                     Password = registerViewModel.Password,
                     ActivateGuid = Guid.NewGuid(),
                     IsActive = false,
@@ -59,6 +60,19 @@ namespace NoteSharingPlatform.BLL.Managers
             }
 
             return userResult;
+        }
+
+        public BusinessLayerResult<UserModel> GetUserById(int id)
+        {
+            BusinessLayerResult<UserModel> res = new BusinessLayerResult<UserModel>();
+            res.Result = userRep.Find(x => x.Id == id);
+
+            if (res.Result == null)
+            {
+                res.AddError(ErrorMessageCode.UserNotFound, "Kullanıcı bulunamadı.");
+            }
+
+            return res;
         }
 
         public BusinessLayerResult<UserModel> LoginUser (LoginViewModel loginViewModel)

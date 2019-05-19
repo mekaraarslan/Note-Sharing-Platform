@@ -3,6 +3,7 @@ using NoteSharingPlatform.BLL.Managers;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.ENTITY.ViewModels;
+using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 UserManager userMan = new UserManager();
                 registerViewModel.Password = Crypto.SHA256(registerViewModel.Password);
                 BusinessLayerResult<UserModel> userResult = userMan.RegisterUser(registerViewModel);
@@ -67,8 +69,14 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
                     userResult.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(registerViewModel);
                 }
+                OKViewModel notifyObject = new OKViewModel()
+                {
+                    Title = "Kayıt Başarılı",
+                    RedirectingUrl = "/Home/Index",
+                };
+                notifyObject.Items.Add("Lütfen e-posta adresinize gönderdiğimiz aktivasyon linkine tıklayarak hesabınızı aktive ediniz. Hesabınızı aktive etmeden not ekleyemez ve beğenme yapamazsınız.");
 
-                return RedirectToAction("RegisterOK");
+                return View("OKView", notifyObject);
             }
 
 
@@ -76,10 +84,6 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
             return View();
         }
 
-        public ActionResult RegisterOK()
-        {
-            return View();
-        }
 
         public ActionResult UserActivate(Guid Id)
         {
@@ -88,26 +92,24 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
             if (result.Errors.Count > 0)
             {
-                TempData["errors"] = result.Errors;
-                return RedirectToAction("UserActivateCancel");
+                ErrorViewModel ErrorNotifyObject = new ErrorViewModel()
+                {
+                    Title = "Geçersiz İşlem",
+                    Items = result.Errors
+                };
+
+                return View("ErrorView", ErrorNotifyObject);
             }
 
-            return RedirectToAction("UserActivateOK");
-        }
-
-        public ActionResult UserActivateOK()
-        {
-            return View();
-        }
-
-        public ActionResult UserActivateCancel()
-        {
-            List<ErrorMessageObject> errors = null;
-            if (TempData["errors"] != null)
+            OKViewModel OKNotifyObject = new OKViewModel()
             {
-                errors = TempData["errors"] as List<ErrorMessageObject>;
-            }
-            return View(errors);
+                Title = "Hesap Aktifleştirildi",
+                RedirectingUrl = "/User/Login",
+
+            };
+            OKNotifyObject.Items.Add("Hesabınız aktifleştirildi. Artık not paylaşabilir ve  beğenme yapabilirsiniz.");
+            return View("OKView" , OKNotifyObject);
         }
+
     }
 }

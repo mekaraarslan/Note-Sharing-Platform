@@ -1,37 +1,80 @@
-﻿
+﻿@using NoteSharingPlatform.ENTITY.Models
+@model UserModel
+
 @{
     ViewBag.Title = "ShowProfile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
-    .myImage{
-        width:100%;
-        height:300px;
-        filter:blur(2px);
-        border-radius:100px;
-        margin-bottom:1%;
-    }
     .myProfileImage
     {
-        width:15%;
-        margin-top:-9%;
-        position:relative;
+        width:100%;
+        margin-top:4%;
+    }
+
+    .myUserInfo{
+        margin-top:3%;
+    }
+
+    .myUserInfo h3 , h6{
+        margin-top:2%;
+        font-family:'Century Gothic';
+    }
+
+    .myActionButton{
+        margin-top:9%;
     }
 
 
 </style>
 
-<div class="">
-    <img src="https://png.pngtree.com/thumb_back/fh260/back_pic/03/62/30/9157aa94e693d90.jpg" class="img-fluid myImage" alt="Responsive image">
-    <div class="container ">
-        <img src="~/Images/DefaultProfileImage.png" class="myProfileImage rounded mx-auto d-block" alt="Alternate Text" />
-        <hr /><hr />
-
-              <h3>Ad - Soyad : Muhammed Emin Karaarslan</h3>
-              <h3>E-Mail : muhammed.e.karaarslan@gmail.com</h3>
-
+<div class="container">
+    <div class="row">
+        <h2>Profil Sayfası</h2>
     </div>
+    <div class="row">
+        <div class="col col-md-2 ">
+            <img src="~/Images/@Model.ProfileImageFileName" class="myProfileImage rounded mx-auto d-block" alt="Alternate Text" />
+        </div>
+        <div class="col col-md-7 text-center">
+            <div class="myUserInfo">
+                @if (Model.Name != "" && Model.Surname != "")
+                {
+                    <h3>@(Model.Name + "  " + Model.Surname)</h3>
+                    <hr />
+                }
+                else
+                {
+                    <h6> <b>Ad Soyad : </b> Ad Soyad alanını lütfen güncelleyiniz. </h6>
+                }
+                    <br />
+                <h6><b>Kullanıcı Adı : </b> @Model.Username </h6>
+
+                <h6><b>Email : </b> @Model.Email </h6>
+                <br />
+
+            </div>
+        </div>
+        <div class="col col-md-3 ">
+
+            <div class="myActionButton">
+                <a href="@Url.Action("EditProfile")" class="btn btn-warning btn-lg btn-block ">
+                    <i class="fa fa-refresh"></i>
+                    Profilimi Güncelle
+                </a>
+                <hr />
+                <hr />
+                <hr />
+                <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Hesabınızı silmek istediğinize emin misiniz ?')" class="btn btn-danger btn-lg btn-block ">
+                    <i class="fa fa-trash-o"></i>
+                    Profilimi Sil
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <hr /><br /><br /><br /><br /><br /><br /><br /><br />
 
 </div>
 

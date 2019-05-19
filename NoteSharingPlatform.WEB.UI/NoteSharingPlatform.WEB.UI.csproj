@@ -178,6 +178,11 @@
     </Compile>
     <Compile Include="Init\WebCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\NotifyViewModels\ErrorViewModel.cs" />
+    <Compile Include="ViewModels\NotifyViewModels\InfoViewModel.cs" />
+    <Compile Include="ViewModels\NotifyViewModels\NotifyViewModelBase.cs" />
+    <Compile Include="ViewModels\NotifyViewModels\OKViewModel.cs" />
+    <Compile Include="ViewModels\NotifyViewModels\WarningViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -188,11 +193,12 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\User\RegisterOK.cshtml" />
-    <Content Include="Views\User\UserActivateOK.cshtml" />
-    <Content Include="Views\User\UserActivateCancel.cshtml" />
     <Content Include="Views\UserProfile\ShowProfile.cshtml" />
     <Content Include="Views\UserProfile\EditProfile.cshtml" />
+    <Content Include="Views\Shared\OKView.cshtml" />
+    <Content Include="Views\Shared\WarningView.cshtml" />
+    <Content Include="Views\Shared\InfoView.cshtml" />
+    <Content Include="Views\Shared\ErrorView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
