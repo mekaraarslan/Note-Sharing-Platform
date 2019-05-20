@@ -66,16 +66,21 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="/Note/AddNew"> <i class="fa fa-plus"></i> Not Ekle</a>
                                 <div class="dropdown-divider"></div>
+
                                 <a class="dropdown-item" href="/Note/MyNotes"> <i class="fa fa-pencil-square-o"></i> Notlarım</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/Note/MyLikedNotes"> <i class="fa fa-heart"></i> Beğendiklerim</a>
-                                <div class="dropdown-divider"></div>
+
 
                                 @if (user.IsAdmin)
                                 {
-                                    <a class="dropdown-item" href="/Category/AddNew"> <i class="fa fa-plus"></i> Kategori Ekle</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Category/List"> <i class="fa fa-list-ul"></i> Kategoriler</a>
+                                    <a class="dropdown-item" href="/Category/Create"> <i class="fa fa-plus"></i> Kategori Ekle</a>
+                                    <a class="dropdown-item" href="/Category/Index"> <i class="fa fa-list-ul"></i> Kategoriler</a>
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/User/Create"> <i class="fa fa-user-plus"></i> Kullanıcı Ekle</a>
+
+                                    <a class="dropdown-item" href="/User/Index"> <i class="fa fa-users"></i> Kullanıcılar</a>
                                 }
 
                             </div>

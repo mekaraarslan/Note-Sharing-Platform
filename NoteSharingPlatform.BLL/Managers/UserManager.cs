@@ -36,7 +36,7 @@ namespace NoteSharingPlatform.BLL.Managers
             }
             else
             {
-                int dbResult = Insert(new UserModel()
+                int dbResult = base.Insert(new UserModel()
                 {
                     Username = registerViewModel.Username,
                     Email = registerViewModel.Email,
@@ -156,7 +156,7 @@ namespace NoteSharingPlatform.BLL.Managers
             {
                 result.Result.ProfileImageFileName = model.ProfileImageFileName;
             }
-            if (Update(result.Result) == 0)
+            if (base.Update(result.Result) == 0)
             {
                 result.AddError(ErrorMessageCode.ProfileCouldNotUpdated, "Profil Güncellenemedi.");
             }
@@ -183,5 +183,82 @@ namespace NoteSharingPlatform.BLL.Managers
             }
             return result;
         }
+
+        // Method gizleme işlemi yaptık
+        public new BusinessLayerResult<UserModel> Insert(UserModel userModel)
+        {
+            UserModel user = Find(x => x.Username == userModel.Username || x.Email == userModel.Email);
+            BusinessLayerResult<UserModel> userResult = new BusinessLayerResult<UserModel>();
+
+            userResult.Result = userModel;
+
+            if (user != null)
+            {
+                if (user.Username == userModel.Username)
+                {
+                    userResult.AddError(ErrorMessageCode.UsernameAlreadyExists, "Bu kullanıcı adı kayıtlı !!!");
+                }
+                if (user.Email == userModel.Email)
+                {
+                    userResult.AddError(ErrorMessageCode.EmailAlreadyExists, "Bu e-posta adresi kayıtlı !!!");
+
+                }
+            }
+            else
+            {
+                userModel.ProfileImageFileName = "DefaultProfileImage.png";
+                userModel.ActivateGuid = Guid.NewGuid();
+
+                if(base.Insert(userResult.Result) == 0)
+                {
+                    userResult.AddError(ErrorMessageCode.UserCouldNotInserted, "Kullanıcı Eklenemedi.");
+                }
+
+               
+            }
+
+            return userResult;
+        }
+
+        // Method gizleme işlemi yaptık
+        public new BusinessLayerResult<UserModel> Update(UserModel model)
+        {
+            UserModel user = Find(x => x.Id != model.Id && (x.Username == model.Username || x.Email == model.Email));
+            BusinessLayerResult<UserModel> result = new BusinessLayerResult<UserModel>();
+            result.Result = model;
+
+            if (user != null && user.Id != model.Id)
+            {
+                if (user.Username == model.Username)
+                {
+                    result.AddError(ErrorMessageCode.UsernameAlreadyExists, "Bu kullanıcı adı zaten kayıtlı");
+                }
+                if (user.Email == model.Email)
+                {
+                    result.AddError(ErrorMessageCode.EmailAlreadyExists, "Bu mail adresi zaten kayıtlı");
+
+                }
+                return result;
+            }
+
+            result.Result = Find(x => x.Id == model.Id);
+            result.Result.Name = model.Name;
+            result.Result.Surname = model.Surname;
+            result.Result.Username = model.Username;
+            result.Result.Email = model.Email;
+            result.Result.Password = model.Password;
+            result.Result.IsActive = model.IsActive;
+            result.Result.IsAdmin = model.IsAdmin;
+
+
+            
+            if (base.Update(result.Result) == 0)
+            {
+                result.AddError(ErrorMessageCode.UserCouldNotUpdated, "Kullanıcı Güncellenemedi.");
+            }
+
+            return result;
+        }
+
     }
 }
