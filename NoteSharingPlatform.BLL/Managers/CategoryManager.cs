@@ -9,7 +9,7 @@ namespace NoteSharingPlatform.BLL.Managers
         public override int Delete(Category obj)
         {
             NoteManager noteMan = new NoteManager();
-            //LikedManager likedMan = new LikedManager();
+            LikedManager likedMan = new LikedManager();
             //CommentManager commentMan = new CommentManager();
 
             // Kategori ile ilişkili notların silinmesi gerekiyor.
@@ -18,7 +18,7 @@ namespace NoteSharingPlatform.BLL.Managers
                 // Note ile ilişkili like ların silinmesi gerekiyor
                 foreach (Liked like in note.Likes.ToList())
                 {
-                    //likedMan.Delete(like);
+                    likedMan.Delete(like);
                 }
 
                 // Note ile ilişkili commentlerin ların silinmesi gerekiyor

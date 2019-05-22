@@ -1,0 +1,45 @@
+﻿@using NoteSharingPlatform.ENTITY.Models
+@using NoteSharingPlatform.WEB.UI.Models
+@model List<Comment>
+
+@{
+    UserModel user = CurrentSession.User;
+}
+
+
+<ul class="list-unstyled">
+    @foreach (Comment comment in Model)
+    {
+        <li class="media">
+            <img src="~/Images/CommentIcon.png" class="mr-3" alt="Comment_Icon">
+            <div class="media-body">
+                <span>
+                    @comment.Text
+                </span>
+
+                <br />
+                <small>
+                    <i class="fa fa-clock-o"></i> @comment.ModifiedOn &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-user"></i> @comment.UserModel.Username
+
+                    @if (user != null && user.Id == comment.UserModel.Id)
+                    {
+                    <span class="pull-right">
+                        <button type="button" class="btn btn-warning btn-sm">
+                            <i class="fa fa-edit"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </span>
+                    }
+
+
+                </small>
+
+            </div>
+        </li>
+        <hr />
+    }
+</ul>

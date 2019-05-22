@@ -16,7 +16,8 @@ namespace NoteSharingPlatform.DAL.EntityFramework
 
         public Repository()
         {
-            _db = new NSPContext();
+
+            _db = db;
             _objectSet = _db.Set<T>();
         }
 

@@ -1,5 +1,6 @@
 ﻿using NoteSharingPlatform.COMMON;
 using NoteSharingPlatform.ENTITY.Models;
+using NoteSharingPlatform.WEB.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace NoteSharingPlatform.WEB.UI.Init
     {
         public string GetUsername()
         {
-            if (HttpContext.Current.Session["login"] != null)
-            {
-                UserModel user = HttpContext.Current.Session["login"] as UserModel;
+            UserModel user = CurrentSession.User;
+            if (user != null)
                 return user.Username;
-            }
-            return "system";
+
+            else
+                return "system";
         }
     }
 }

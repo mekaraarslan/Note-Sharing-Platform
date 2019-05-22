@@ -3,6 +3,7 @@ using NoteSharingPlatform.BLL.Managers;
 using NoteSharingPlatform.BLL.Results;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
+using NoteSharingPlatform.WEB.UI.Models;
 using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         [HttpGet]
         public ActionResult ShowProfile()
         {
-            UserModel currentUser = Session["login"] as UserModel;
-            BusinessLayerResult<UserModel> res = userMan.GetUserById(currentUser.Id);
+            BusinessLayerResult<UserModel> res = userMan.GetUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -42,8 +42,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         [HttpGet]
         public ActionResult EditProfile()
         {
-            UserModel user = Session["login"] as UserModel;
-            return View(user);
+            return View(CurrentSession.User);
         }
 
         [HttpPost]
@@ -78,7 +77,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
                     return View("ErrorView", errorNotifyObject);
                 }
 
-                Session["login"] = result.Result;  // Profil güncellendiği için sessionda güncellendi .
+                CurrentSession.Set<UserModel>("login", result.Result);  // Profil güncellendiği için sessionda güncellendi .
                 return RedirectToAction("ShowProfile");
 
             }
@@ -88,9 +87,9 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         [HttpGet]
         public ActionResult RemoveProfile()
         {
-            UserModel currentUser = Session["login"] as UserModel;
+           
             
-            BusinessLayerResult<UserModel> result = userMan.RemoveUserById(currentUser.Id);
+            BusinessLayerResult<UserModel> result = userMan.RemoveUserById(CurrentSession.User.Id);
 
             if (result.Errors.Count>0)
             {

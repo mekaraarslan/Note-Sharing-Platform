@@ -1,0 +1,64 @@
+﻿@model IEnumerable<NoteSharingPlatform.ENTITY.Models.Note>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="container-fluid col-md-11">
+    <h2>Notlarım</h2>
+    <br />
+    <p>
+        <a class="btn btn-primary" href="/Note/Create"><i class="fa fa-plus"></i> Not Oluştur</a>
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDraft)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LikeCount)
+            </th>
+         
+    
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDraft)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LikeCount)
+                </td>
+               
+                <td>
+                    <a href="/Note/Edit/@item.Id" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                    <a href="/Note/Details/@item.Id" class="btn btn-info btn-sm"><i class="fa fa-search"></i></a>
+                    <a href="/Note/Delete/@item.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

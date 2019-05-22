@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using NoteSharingPlatform.BLL.Managers;
 using NoteSharingPlatform.ENTITY.Models;
-
+using NoteSharingPlatform.WEB.UI.Models;
 
 namespace NoteSharingPlatform.WEB.UI.Controllers
 {
@@ -21,22 +21,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
             return View(categoryMan.List());
         }
 
-        public ActionResult ByCategory (int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CategoryManager categoryMan = new CategoryManager();
-            Category category = categoryMan.Find(x => x.Id == id.Value);
-
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View("Index", category.Notes.OrderByDescending(x => x.ModifiedOn).ToList());
-        }
+       
 
         public ActionResult Details(int? id)
         {
@@ -63,8 +48,8 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 categoryMan.Insert(category);
+                CacheHelper.RemoveCategoriesFromCache();
                 return RedirectToAction("Index");
             }
 
@@ -88,12 +73,13 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,CreatedOn,ModifiedOn,ModifiedUsername")] Category category)
+        public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
             {
                 // TODO : Incele
                 categoryMan.Update(category);
+                CacheHelper.RemoveCategoriesFromCache();
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -119,6 +105,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
         {
             Category category = categoryMan.Find(x => x.Id == id);
             categoryMan.Delete(category);
+            CacheHelper.RemoveCategoriesFromCache();
             return RedirectToAction("Index");
         }
 

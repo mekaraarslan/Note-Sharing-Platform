@@ -1,4 +1,5 @@
 ﻿@using NoteSharingPlatform.ENTITY.Models
+@using NoteSharingPlatform.WEB.UI
 @model List<Note>
 
 
@@ -74,7 +75,7 @@
                             </div>
                             <div class="card-footer">
                                 <button id="myLikeButton" class="btn btn-danger btn-sm"><i class="fa fa-heart"></i>&nbsp; Beğen (@note.LikeCount)</button>
-                                <button id="myCommentButton" class="btn btn-success btn-sm float-right"><i class="fa fa-comment"></i> Yorumlar (32)</button>
+                                <button data-toggle="modal" data-target="#modal_comment" data-note-id="@note.Id" id="myCommentButton" class="btn btn-success btn-sm float-right"><i class="fa fa-comment"></i> Yorumlar</button>
 
                             </div>
                         </div>
@@ -86,6 +87,23 @@
     </div>
 </div>
 
-@section footer{
+@section footer
+{
     @Html.Partial("_FooterLayout")
-    }
+}
+
+@BootstrapHelper.ModalPopup("modal_comment", "Yorumlar")
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    $(function() {
+        $('#modal_comment').on('show.bs.modal', function (e) {
+            var btn = $(e.relatedTarget);
+            var noteId = btn.data('note-id');
+
+            $('#modal_comment_body').load('/Comment/ShowNoteComments/'+noteId);
+        })
+    });
+
+</script>

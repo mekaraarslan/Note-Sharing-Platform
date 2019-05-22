@@ -4,6 +4,7 @@ using NoteSharingPlatform.BLL.Results;
 using NoteSharingPlatform.ENTITY.Messages;
 using NoteSharingPlatform.ENTITY.Models;
 using NoteSharingPlatform.ENTITY.ViewModels;
+using NoteSharingPlatform.WEB.UI.Models;
 using NoteSharingPlatform.WEB.UI.ViewModels.NotifyViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
                     return View(loginViewModel);
                 }
 
-                Session["login"] = userResult.Result;
+                CurrentSession.Set<UserModel>("login", userResult.Result);  
                 return RedirectToAction("Index", "Home");
 
             }
@@ -47,7 +48,7 @@ namespace NoteSharingPlatform.WEB.UI.Controllers
 
         public ActionResult Logout()
         {
-            Session.Clear();
+            CurrentSession.Remove("login");
             return RedirectToAction("Index", "Home");
         }
 

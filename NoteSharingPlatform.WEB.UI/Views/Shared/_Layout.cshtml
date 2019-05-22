@@ -1,14 +1,5 @@
 ﻿@using NoteSharingPlatform.ENTITY.Models
-
-@{
-    UserModel user = null;
-
-    if (Session["login"] != null)
-    {
-        user = Session["login"] as UserModel;
-    }
-}
-
+@using NoteSharingPlatform.WEB.UI.Models
 
 
 <!DOCTYPE html>
@@ -49,7 +40,7 @@
 
                 <ul class="navbar-nav ">
 
-                    @if (user != null)
+                    @if (CurrentSession.User != null)
                     {
                         <li class="">
                             <a class="" href="#">
@@ -64,23 +55,23 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="/Note/AddNew"> <i class="fa fa-plus"></i> Not Ekle</a>
+                                <a class="dropdown-item" href="/Note/Create"> <i class="fa fa-plus"></i> Not Ekle</a>
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="/Note/MyNotes"> <i class="fa fa-pencil-square-o"></i> Notlarım</a>
+                                <a class="dropdown-item" href="/Note/Index"> <i class="fa fa-pencil-square-o"></i> Notlarım</a>
                                 <a class="dropdown-item" href="/Note/MyLikedNotes"> <i class="fa fa-heart"></i> Beğendiklerim</a>
 
 
-                                @if (user.IsAdmin)
+                                @if (CurrentSession.User.IsAdmin)
                                 {
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/Category/Create"> <i class="fa fa-plus"></i> Kategori Ekle</a>
                                     <a class="dropdown-item" href="/Category/Index"> <i class="fa fa-list-ul"></i> Kategoriler</a>
 
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/User/Create"> <i class="fa fa-user-plus"></i> Kullanıcı Ekle</a>
+                                    <a class="dropdown-item" href="/UserModel/Create"> <i class="fa fa-user-plus"></i> Kullanıcı Ekle</a>
 
-                                    <a class="dropdown-item" href="/User/Index"> <i class="fa fa-users"></i> Kullanıcılar</a>
+                                    <a class="dropdown-item" href="/UserModel/Index"> <i class="fa fa-users"></i> Kullanıcılar</a>
                                 }
 
                             </div>
@@ -112,7 +103,7 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarResponsive">
                     <ul class="navbar-nav justify-content-end ">
 
-                        @if (user == null)
+                        @if (CurrentSession.User == null)
                         {
                             <li class="nav-item">
                                 <a class="nav-link" href="/User/Login">
@@ -132,7 +123,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/UserProfile/ShowProfile">
                                     <i class="fa fa-user-circle"></i>
-                                    @user.Username
+                                    @CurrentSession.User.Username
                                 </a>
                             </li>
                             <li class="nav-item">
